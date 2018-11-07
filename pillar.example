@@ -1,0 +1,20 @@
+frr:
+  # see
+  # - defaults.yaml
+  # - osfamilymap.yaml
+  # - osmap.yaml
+  #
+  # Here some default values are shown:
+  lookup:
+    user: frr
+    group: frr
+    vtygroup: frr
+    # The name of the package
+    package: frr
+    package_auto_upgrade: False
+    # Used to fetch FRR directly from the releases page on GitHub.
+    package_url: False
+    #package_url: https://github.com/FRRouting/frr/releases/download/frr-6.0/frr_6.0-1.debian9+1_arm64.deb
+    # Hash to proove the integrity of the package file. (Only used with package_url.)
+    package_hash: False
+    #package_hash: sha256=f20cee43e94d136383d27531b848248e8f605e68b20fd257dd17d17228402bf7

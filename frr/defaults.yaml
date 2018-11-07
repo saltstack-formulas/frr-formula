@@ -1,0 +1,14 @@
+frr:
+  # The name of the package
+  package: frr
+  package_auto_upgrade: False
+  # Used to fetch FRR directly from the releases page on GitHub.
+  package_url: False
+  # Hash to proove the integrity of the package file. (Only used with package_url.)
+  package_hash: False
+  conf_dir: /etc/frr
+  log_dir: /var/log/frr
+  run_dir: /var/run/frr
+  user: frr
+  group: frr
+  vtygroup: frrvty

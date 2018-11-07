@@ -1,0 +1,3 @@
+FreeBSD:
+  package: frr6
+  conf_dir: /usr/local/etc/frr
