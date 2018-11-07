@@ -1,2 +1,4 @@
 include:
   - .install
+  - .config
+  - .service

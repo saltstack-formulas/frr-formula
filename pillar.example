@@ -18,3 +18,10 @@ frr:
     # Hash to proove the integrity of the package file. (Only used with package_url.)
     package_hash: False
     #package_hash: sha256=f20cee43e94d136383d27531b848248e8f605e68b20fd257dd17d17228402bf7
+
+  services:
+    babel:
+      enable: True
+    rip:
+      enable: False
+    # Services not listed here won't be touched.

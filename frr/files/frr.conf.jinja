@@ -1,0 +1,47 @@
+########################################################################
+# File managed by Salt (frr-formula).
+# Your changes will be overwritten.
+########################################################################
+
+{%- from "frr/map.jinja" import map with context %}
+
+{%- set defaults = {
+  "hostname": grains['id'].split('.')[0],
+  "log file": False,
+  "log syslog": 'informational',
+} %}
+
+{%- set common = salt['pillar.get']('frr:common_config', defaults, True) %}
+
+{%- macro print_settings(settings_, indent_=0) %}
+{%-   for key, value in settings_.items() %}
+{%-     if value is sameas False -%}
+no {{ key }}
+{%      elif value is string -%}
+{{ key }} {{ value }}
+{%      elif value is mapping %}
+{{ key }}
+{{ print_settings(value, indent_+1) | indent(indent_+1, True) }}
+{%-     elif value is iterable -%}
+{%-       for v in value -%}
+{{ key }} {{ v }}
+{%        endfor %}
+{%-     else -%}
+{{ key }}
+{%      endif %}
+{%-   endfor %}
+{%- endmacro %}
+
+{{ print_settings(common) }}
+
+{%- for interface, settings in salt['pillar.get']('frr:interfaces', {}).items() %}
+interface {{ interface }}
+{{ print_settings(settings, 1) | indent(1, True) }}
+{%- endfor %}
+
+{%- for router, settings in salt['pillar.get']('frr:routers', {}).items() %}
+{%-   if settings %}
+router {{ router }}
+{{ print_settings(settings, 1) | indent(1, True) }}
+{%-   endif %}
+{%- endfor %}
