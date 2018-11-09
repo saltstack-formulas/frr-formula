@@ -13,3 +13,8 @@ frr:
   user: frr
   group: frr
   vtygroup: frrvty
+  use_daemons_file: True
+  manage_sysrc: False
+  use_integrated_mode: True
+  one_service_to_start_them_all: True
+  use_vtysh: True

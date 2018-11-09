@@ -1,6 +1,10 @@
 {%- from "frr/map.jinja" import map with context %}
 
-{%- set use_repo = False if (map.package_url and map.package_hash) else True %}
+{%- if map.package_url and map.package_hash %}
+{%-   set use_repo = False %}
+{%- else %}
+{%-   set use_repo = True %}
+{%- endif %}
 
 {%- if not use_repo %}
 # Cache the file in order to verify its integrity:

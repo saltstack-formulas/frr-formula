@@ -1,3 +1,7 @@
 FreeBSD:
   package: frr6
   conf_dir: /usr/local/etc/frr
+  use_daemons_file: False
+  manage_sysrc: True
+  use_integrated_mode: False
+  use_vtysh: True

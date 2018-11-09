@@ -11,7 +11,24 @@
   "log syslog": 'informational',
 } %}
 
-{%- set common = salt['pillar.get']('frr:common_config', defaults, True) %}
+{%- set common = salt['pillar.get']("frr:common_config", defaults, True) %}
+
+{%- if map.use_integrated_mode %}
+{%-   set config = {} %}
+{%-   set interfaces = {} %}
+{%-   set routers = {} %}
+{%-   for protocol, service_config in salt['pillar.get']("frr:services", {}).items() %}
+{%-     if service_config is mapping %}
+{%-       do salt['defaults.merge'](config, service_config.get('config', {})) %}
+{%-       do salt['defaults.merge'](interfaces, service_config.get('interfaces', {})) %}
+{%-       do salt['defaults.merge'](routers, service_config.get('routers', {})) %}
+{%-     endif %}
+{%-   endfor %}
+{%- else %}
+{%-   set config = salt['pillar.get']("frr:services:{}:config".format(protocol), defaults, True) %}
+{%-   set interfaces = salt['pillar.get']("frr:services:{}:interfaces".format(protocol), {}, True) %}
+{%-   set routers = salt['pillar.get']("frr:services:{}:routers".format(protocol), {}, True) %}
+{%- endif %}
 
 {%- macro print_settings(settings_, indent_=0) %}
 {%-   for key, value in settings_.items() %}
@@ -33,13 +50,14 @@ no {{ key }}
 {%- endmacro %}
 
 {{ print_settings(common) }}
+{{ print_settings(config) }}
 
-{%- for interface, settings in salt['pillar.get']('frr:interfaces', {}).items() %}
+{%- for interface, settings in interfaces.items() %}
 interface {{ interface }}
 {{ print_settings(settings, 1) | indent(1, True) }}
 {%- endfor %}
 
-{%- for router, settings in salt['pillar.get']('frr:routers', {}).items() %}
+{%- for router, settings in routers.items() %}
 {%-   if settings %}
 router {{ router }}
 {{ print_settings(settings, 1) | indent(1, True) }}
