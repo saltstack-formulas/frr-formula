@@ -19,9 +19,51 @@ frr:
     package_hash: False
     #package_hash: sha256=f20cee43e94d136383d27531b848248e8f605e68b20fd257dd17d17228402bf7
 
+  # Configuration common to all services
+  common_config:
+    log syslog: debugging
+    password: SuperSecurePassword
+
+  # Services not listed here won't be touched.
   services:
+    # Babel example
     babel:
       enable: True
+
+    # RIP example
     rip:
       enable: False
-    # Services not listed here won't be touched.
+
+    # OSPF example
+    # with two tap devices (OpenVPN) and redistribution of loopback addresses
+    ospf:
+      config:
+        ip prefix-list OSNET seq 10: permit 192.168.255.0/24 le 32
+        route-map OSMAP permit 5:
+          match ip address prefix-list: OSNET
+      interfaces:
+        tap0:
+          ip ospf network:
+            point-to-multipoint
+        tap1:
+          ip ospf network:
+            point-to-multipoint
+      routers:
+        # allows for multiple router instances
+        ospf:
+          network:
+            - 192.168.1.0/24 area 0
+            - 192.168.3.0/24 area 0
+          ospf router-id: 192.168.255.252
+          passive-interface:
+            - eth0
+          redistribute:
+            - connected route-map OSMAP
+    zebra:
+      config:
+        ip prefix-list OSNET seq 10: permit 192.168.255.0/24 le 32
+        ip protocol connected: route-map OSMAP
+        ip protocol ospf: route-map OSMAP
+        route-map OSMAP permit 5:
+          match ip address prefix-list: OSNET
+
