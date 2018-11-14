@@ -67,3 +67,18 @@ frr:
         route-map OSMAP permit 5:
           match ip address prefix-list: OSNET
 
+# Use quagga
+ frr:
+   lookup:
+     use_integrated_mode: False
+     package_url: False
+     package: quagga
+     package_auto_upgrade: True
+     service: quagga
+     conf_dir: /etc/quagga
+     log_dir: /var/log/quagga
+     run_dir: /var/run/quagga
+     user: quagga
+     group: quagga
+     vtygroup: quaggavty
+     one_service_to_start_them_all: False
