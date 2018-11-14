@@ -2,7 +2,13 @@
 frr-formula
 ===========
 
-A SaltStack formula that installs and manages Quagga.
+A SaltStack formula that installs and manages FRRouting, a successor to Quagga.
+
+See also:
+
+- https://frrouting.org/
+- http://docs.frrouting.org
+
 
 **NOTE**
 
