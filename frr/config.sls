@@ -137,9 +137,8 @@ frr_vtysh_boot:
 {%- else %}{# not map.use_integrated_mode #}
 
 frr_service_config:
-  file.managed:
+  file.absent:
     - name: {{ map.conf_dir }}/frr.conf
-    - content: ''
 
 {%- endif %}
 
