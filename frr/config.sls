@@ -95,8 +95,8 @@ frr_vtysh_config:
 {%- if map.use_integrated_mode or map.use_vtysh %}
   file.managed:
     - mode: '0644'
-    - user: frr
-    - group: frrvty
+    - user: {{ map.user }}
+    - group: {{ map.group }}
     - contents: |
         service integrated-vtysh-config
         username cumulus nopassword
