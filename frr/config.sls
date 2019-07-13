@@ -50,8 +50,8 @@ frr_service_{{ service }}_activation:
 
 
 frr_service_config_{{ service }}:
-{%-     if config %}
-{%-   if not map.use_integrated_mode %}
+{%-   if config %}
+{%-     if not map.use_integrated_mode %}
   file.managed:
     - source: salt://frr/files/frr.conf.jinja
     - template: jinja
@@ -126,14 +126,6 @@ frr_reload:
     - onchanges:
       - service: frr_service
 
-{%-   if map.manage_sysrc %}
-frr_vtysh_boot:
-  sysrc.managed:
-    - value: "{{ "YES" if map.use_integrated_mode else "NO" }}"
-    - require_in:
-       - service: frr_service
-{%-   endif %}
-
 {%- else %}{# not map.use_integrated_mode #}
 
 frr_service_config:
@@ -142,6 +134,13 @@ frr_service_config:
 
 {%- endif %}
 
+{%- if map.manage_sysrc %}
+frr_vtysh_boot:
+  sysrc.managed:
+    - value: "{{ "YES" if (map.use_integrated_mode and map.use_vtysh) else "NO" }}"
+    - require_in:
+       - service: frr_service
+{%- endif %}
 
 {%- if map.one_service_to_start_them_all %}
 
