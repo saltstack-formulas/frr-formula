@@ -1,20 +1,9 @@
 {%- from "frr/map.jinja" import map with context %}
+{%- from "frr/macros.jinja" import service_dependencies %}
 
 {%- set services_defaults = {
   "zebra": True
 }%}
-
-{%- macro service_dependencies(service_name=False) -%}
-- watch_in:
-{%-   if service_name and not map.one_service_to_start_them_all %}
-  - service: frr_{{ service_name }}_service
-{%-   else %}
-  - service: frr_service
-{%-   endif %}
-{%-   if map.use_integrated_mode %}
-  - cmd: frr_reload
-{%-   endif %}
-{%- endmacro %}
 
 {%- set services = [] %}{# used below in 'frr_daemons' #}
 {%- for protocol, config in salt['pillar.get']('frr:services', services_defaults, True).items() %}

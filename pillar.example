@@ -24,6 +24,10 @@ frr:
     log syslog: debugging
     password: SuperSecurePassword
 
+  # set this for all enabled services
+  common_flags:
+    vty_addr: '127.0.0.1'
+
   # Services not listed here won't be touched.
   services:
     # Babel example
@@ -37,6 +41,8 @@ frr:
     # OSPF example
     # with two tap devices (OpenVPN) and redistribution of loopback addresses
     ospf:
+      flags:
+        moduledir: '/opt/my/ospf/modules'
       config:
         ip prefix-list OSNET seq 10: permit 192.168.255.0/24 le 32
         route-map OSMAP permit 5:
