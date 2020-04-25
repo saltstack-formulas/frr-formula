@@ -1,3 +1,5 @@
+Debian:
+  default_file: /etc/default/frr
 FreeBSD:
   package: frr6
   conf_dir: /usr/local/etc/frr
