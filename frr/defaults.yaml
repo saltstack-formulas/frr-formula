@@ -6,6 +6,7 @@ frr:
   package_url: False
   # Hash to proove the integrity of the package file. (Only used with package_url.)
   package_hash: False
+  custom_repos: False
   service: frr
   conf_dir: /etc/frr
   log_dir: /var/log/frr

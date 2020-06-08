@@ -6,6 +6,24 @@
 {%-   set use_repo = True %}
 {%- endif %}
 
+{%- if map.custom_repos and use_repo %}
+{%-   set custom_repos = True %}
+{%- else %}
+{%-   set custom_repos = False %}
+{%- endif %}
+
+{%- if custom_repos %}
+{%-   for repo in map.custom_repos %}
+frr_custom_repo_{{ repo.name }}:
+  pkgrepo.managed:
+{%-     for key, value in repo.items() %}
+    - {{ key }}: {{ value }}
+{%-     endfor %}
+    - require_in:
+      - pkg: frr_package
+{%-   endfor %}
+{%- endif %}
+
 {%- if not use_repo %}
 # Cache the file in order to verify its integrity:
 frr_package_cached:

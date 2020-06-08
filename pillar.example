@@ -18,6 +18,21 @@ frr:
     # Hash to proove the integrity of the package file. (Only used with package_url.)
     package_hash: False
     #package_hash: sha256=f20cee43e94d136383d27531b848248e8f605e68b20fd257dd17d17228402bf7
+    # Configure custom repos for CentOS.  frr and frr-extras required.
+    # Replace change el8 in the URLs to match your CentOS version.
+    #custom_repos:
+    #  - name: frr
+    #    humanname: FRRouting Packages for Enterprise Linux 8 - $basearch
+    #    baseurl: https://rpm.frrouting.org/repo/el8/frr
+    #    enabled: 1
+    #    gpgcheck: 1
+    #    gpgkey: file:///etc/pki/rpm-gpg/RPM-GPG-KEY-FRR
+    #  - name: frr-extras
+    #    humanname: FRRouting Packages for Enterprise Linux 8 - $basearch
+    #    baseurl: https://rpm.frrouting.org/repo/el8/extras
+    #    enabled: 1
+    #    gpgcheck: 1
+    #    gpgkey: file:///etc/pki/rpm-gpg/RPM-GPG-KEY-FRR
 
   # Configuration common to all services
   common_config:
