@@ -34,7 +34,7 @@
 {%-   for key, value in settings_.items() %}
 {%-     if value is sameas False -%}
 no {{ key }}
-{%      elif value is string -%}
+{%      elif value is string or value is number -%}
 {{ key }} {{ value }}
 {%      elif value is mapping %}
 {{ key }}
